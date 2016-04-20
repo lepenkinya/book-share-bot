@@ -1,5 +1,8 @@
 from flask import Flask
 from flask import request
+from flask import jsonify
+
+import json
 
 from ssl_paths import CERTIFICATE_PATH
 from ssl_paths import KEY_PATH
@@ -10,9 +13,11 @@ app = Flask(__name__)
 @app.route("/start", methods=['GET', 'POST'])
 def start():
     if request.method == 'POST':
-        return "POST"
+        data = json.loads(request.data)
+        chat_id = data['message']['chat']['id']
+        return jsonify(method='sendMessage', chat_id=chat_id, text='hey yo')
     else:
-        return "GET"
+        return jsonify(method='method', param='param')
 
 
 @app.route("/")
