@@ -1,5 +1,5 @@
-server/config.py
-telegram/config.py
-telegram/public.pem
+server/ssl_paths.py
+server/telegram_api.py
+public.pem
 deploy.sh
 .idea

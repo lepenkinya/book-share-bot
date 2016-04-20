@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import request
 
-from config import CERTIFICATE_PATH
-from config import KEY_PATH
+from ssl_paths import CERTIFICATE_PATH
+from ssl_paths import KEY_PATH
 
 app = Flask(__name__)
 
