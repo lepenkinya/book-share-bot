@@ -1,8 +1,9 @@
 import requests
 
-from server.telegram_api import telegram_url_for_method
+from server.telegram_api import telegram_method_url
+from server.bot_internal import WEBHOOK_URL
 
-url = telegram_url_for_method("setWebhook")
+url = telegram_method_url("setWebhook")
 
 certificate = {'certificate': open('public.pem', 'rb')}
 

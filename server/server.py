@@ -1,7 +1,5 @@
 import json
-
 from flask import Flask, jsonify, request
-
 from ssl_paths import CERTIFICATE_PATH, KEY_PATH
 
 app = Flask(__name__)
@@ -11,7 +9,8 @@ app = Flask(__name__)
 def start():
     if request.method == 'POST':
         data = json.loads(request.data)
-        chat_id = data['message']['chat']['id']
+        message = data['message']
+        chat_id = message['chat']['id']
         return jsonify(method='sendMessage', chat_id=chat_id, text='hey yo')
     else:
         return jsonify(method='method', param='param')

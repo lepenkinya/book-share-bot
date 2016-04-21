@@ -1,5 +1,5 @@
 server/ssl_paths.py
-server/telegram_api.py
+server/bot_internal.py
 public.pem
 deploy.sh
 .idea
