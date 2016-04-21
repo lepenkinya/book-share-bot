@@ -8,5 +8,5 @@ def telegram_method_url(method):
     return API_URL + API_KEY + '/' + method
 
 
-def telegram_download_file_url(file_id):
-    return FILE_URL + API_KEY + '/' + file_id
+def telegram_get_file_url(file_url):
+    return FILE_URL + API_KEY + '/' + file_url
