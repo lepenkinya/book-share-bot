@@ -1,5 +1,6 @@
 server/ssl_paths.py
 server/bot_internal.py
+server/oxford_keys.py
 public.pem
 deploy.sh
 .idea
