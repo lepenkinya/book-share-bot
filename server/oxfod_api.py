@@ -10,7 +10,16 @@ def oxford_ocr(image_url):
     url_params = {'detectOrientation': 'true', 'language': 'en'}
     data = {'url': image_url}
     response = requests.post(OXFORD_OCR_URL, params=url_params, headers=headers, data=json.dumps(data))
-    print response.status_code
+
+    if response.status_code == 200:
+        data = json.loads(response.content)
+
+        for region in data['regions']:
+            print 'region'
+            for line in region['lines']:
+                for word in line['words']:
+                    print word['text'] + ' ',
+                print ''
 
 
-oxford_ocr('http://www.multicultural.vic.gov.au/images/stories/articles/Interpreter-Symbol-text-jpg.jpg')
+oxford_ocr('http://1.bp.blogspot.com/-zJPE8d1AUAQ/TvIMKiUSTUI/AAAAAAAABqQ/JQlmMg6wyOc/s1600/words.png')
