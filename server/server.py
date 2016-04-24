@@ -1,8 +1,12 @@
-import json, requests
-from oxfod_api import get_lines_from_image
-from telegram_api import telegram_method_url, telegram_get_file_url
+import json
+import requests
+
 from flask import Flask, jsonify, request
+
+from isbn import get_ISBN
+from oxfod_api import get_lines_from_image
 from ssl_paths import CERTIFICATE_PATH, KEY_PATH
+from telegram_api import telegram_method_url, telegram_get_file_url
 
 app = Flask(__name__)
 
@@ -19,7 +23,12 @@ def start():
         lines = get_lines_from_image(url)
 
         chat_id = message['chat']['id']
-        return jsonify(method='sendMessage', chat_id=chat_id, text=''.join(lines))
+
+        isbn = get_ISBN(lines)
+        if not len(isbn):
+            return jsonify(method='sendMessage', chat_id=chat_id, text='ISBN is not detected')
+
+        return jsonify(method='sendMessage', chat_id=chat_id, text='ISBN: ' + isbn)
     else:
         return jsonify(method='method', param='param')
 
