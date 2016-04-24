@@ -1,4 +1,5 @@
-import urllib, json, requests
+import json, requests
+from oxfod_api import get_lines_from_image
 from telegram_api import telegram_method_url, telegram_get_file_url
 from flask import Flask, jsonify, request
 from ssl_paths import CERTIFICATE_PATH, KEY_PATH
@@ -14,21 +15,20 @@ def start():
         max_photo_info = max(message['photo'], key=lambda x: x['width'])
         file_id = max_photo_info['file_id']
 
-        file_name = download_file(file_id)
+        url = get_file_url(file_id)
+        lines = get_lines_from_image(url)
 
         chat_id = message['chat']['id']
-        return jsonify(method='sendMessage', chat_id=chat_id, text='hey yo')
+        return jsonify(method='sendMessage', chat_id=chat_id, text=''.join(lines))
     else:
         return jsonify(method='method', param='param')
 
 
-def download_file(file_id):
+def get_file_url(file_id):
     url = telegram_method_url('getFile')
     response = requests.get(url, params={'file_id': file_id})
     file_path = response.json()['result']['file_path']
-    file_name = file_path.split('/')[-1]
-    urllib.urlretrieve(telegram_get_file_url(file_path), file_name)
-    return file_name
+    return telegram_get_file_url(file_path)
 
 
 @app.route("/")
