@@ -7,7 +7,7 @@ OXFORD_OCR_URL = 'https://api.projectoxford.ai/vision/v1.0/ocr'
 
 def get_lines_from_image(image_url):
     headers = {'Ocp-Apim-Subscription-Key': OXFORD_OCR_KEY, 'Content-Type': 'application/json'}
-    url_params = {'detectOrientation': 'true', 'language': 'en'}
+    url_params = {'detectOrientation': 'true'}
     data = {'url': image_url}
     response = requests.post(OXFORD_OCR_URL, params=url_params, headers=headers, data=json.dumps(data))
 

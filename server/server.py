@@ -4,6 +4,7 @@ import requests
 from flask import Flask, jsonify, request
 
 from isbn import get_ISBN
+from isbn_search import find_book_by_isbn
 from oxfod_api import get_lines_from_image
 from ssl_paths import CERTIFICATE_PATH, KEY_PATH
 from telegram_api import telegram_method_url, telegram_get_file_url
@@ -28,9 +29,19 @@ def start():
         if not len(isbn):
             return jsonify(method='sendMessage', chat_id=chat_id, text='ISBN is not detected')
 
+        books = find_book_by_isbn(isbn)
+
+        if len(books):
+            return jsonify(method='sendMessage', chat_id=chat_id, text=books[0].to_string())
+
         return jsonify(method='sendMessage', chat_id=chat_id, text='ISBN: ' + isbn)
     else:
         return jsonify(method='method', param='param')
+
+
+@app.route("/")
+def hello():
+    return "Hello World!"
 
 
 def get_file_url(file_id):
@@ -38,11 +49,6 @@ def get_file_url(file_id):
     response = requests.get(url, params={'file_id': file_id})
     file_path = response.json()['result']['file_path']
     return telegram_get_file_url(file_path)
-
-
-@app.route("/")
-def hello():
-    return "Hello World!"
 
 
 context = (CERTIFICATE_PATH, KEY_PATH)
